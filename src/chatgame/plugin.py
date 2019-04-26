@@ -136,12 +136,16 @@ class GameBotPlugin(MachineBasePlugin):
                 f".. it was {self.pending_answer}\nWait for new question"
             )
 
-            color_tuple = None
-            if rgb is not None:
-                color_tuple = hex_to_rgb(rgb)
+            try:
+                color_tuple = None
+                if rgb is not None:
+                    color_tuple = hex_to_rgb(rgb)
 
-            if color is not None:
-                color_tuple = name_to_rgb(color)
+                if color is not None:
+                    color_tuple = name_to_rgb(color)
+            except Exception as e:
+                msg.reply(f"Sorry, couldn't work out that color, I'll do super green")
+                color_tuple = (0, 128, 0)
 
             if color_tuple is not None:
                 name = profanity.censor(msg.sender.real_name)
