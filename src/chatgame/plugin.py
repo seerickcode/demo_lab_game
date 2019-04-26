@@ -60,8 +60,7 @@ class GameBotPlugin(MachineBasePlugin):
     def init(self):
 
         logger.info("Gamebot Starting")
-        pygame.init()
-        self.generating = False
+        self.generating = True
         self.game_channel = self.settings.get("GAME_CHANNEL", None)
         self.admin_channel = self.settings.get("ADMIN_CHANNEL", None)
         self.delay = int(self.settings.get("DEFAULT_DELAY", 15))
@@ -71,8 +70,10 @@ class GameBotPlugin(MachineBasePlugin):
         self.pending_answer = float(self.settings.get("START_ANSWER", 0))
         self.answered = False
         self.answered_at = datetime.datetime.now()
-        self.screen = pygame.display.set_mode((800, 600))
         self.total = 0
+        logger.info("Getting pygame ready")
+        pygame.init()
+        self.screen = pygame.display.set_mode((800, 600))
         self.GAME_FONT = pygame.freetype.Font(
             "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", size=64
         )
@@ -82,6 +83,8 @@ class GameBotPlugin(MachineBasePlugin):
         self.GAME_FONT.render_to(self.screen, (110, 250), "THUNDERDOME", (0, 0, 0))
         self.GAME_FONT.render_to(self.screen, (160, 320), "IS WAITING", (0, 0, 0))
         pygame.display.flip()
+        logger.info("Gamebot Ready")
+        self.generating = False
 
     def _center_text(self, text):
         """
