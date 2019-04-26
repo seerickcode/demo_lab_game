@@ -64,10 +64,10 @@ class GameBotPlugin(MachineBasePlugin):
         self.generating = False
         self.game_channel = self.settings.get("GAME_CHANNEL", None)
         self.admin_channel = self.settings.get("ADMIN_CHANNEL", None)
-        self.delay = self.settings.get("DEFAULT_DELAY", 30)
+        self.delay = int(self.settings.get("DEFAULT_DELAY", 15))
         self.question = self.settings.get("START_QUESTION", "We don't know")
-        self.difficulty = self.settings.get("GAME_DIFFICULTY", 0)
-        self.modulus = self.settings.get("DIFFICULTY_MODULUS", 5)
+        self.difficulty = int(self.settings.get("GAME_DIFFICULTY", 0))
+        self.modulus = int(self.settings.get("DIFFICULTY_MODULUS", 5))
         self.pending_answer = float(self.settings.get("START_ANSWER", 0))
         self.answered = False
         self.answered_at = datetime.datetime.now()
@@ -207,10 +207,10 @@ class GameBotPlugin(MachineBasePlugin):
         self.generating = True
         self.game_channel = self.settings.get("GAME_CHANNEL", None)
         self.admin_channel = self.settings.get("ADMIN_CHANNEL", None)
-        self.delay = self.settings.get("DEFAULT_DELAY", 30)
+        self.delay = int(self.settings.get("DEFAULT_DELAY", 30))
         self.question = self.settings.get("START_QUESTION", "We don't know")
-        self.difficulty = self.settings.get("GAME_DIFFICULTY", 0)
-        self.modulus = self.settings.get("DIFFICULTY_MODULUS", 5)
+        self.difficulty = int(self.settings.get("GAME_DIFFICULTY", 0))
+        self.modulus = int(self.settings.get("DIFFICULTY_MODULUS", 5))
         self.pending_answer = float(self.settings.get("START_ANSWER", 0))
         self.answered = False
         self.answered_at = datetime.datetime.now()
@@ -242,7 +242,7 @@ class GameBotPlugin(MachineBasePlugin):
             return
 
         logger.warn(f"Admin Channel - Delay {_delay}")
-        self.delay = _delay
+        self.delay = int(_delay)
 
     @respond_to(r"^admin diff (?P<difficulty>\d*)(?:.+)?$", re.IGNORECASE)
     def admin_difficulty(self, msg, difficulty):
@@ -258,7 +258,7 @@ class GameBotPlugin(MachineBasePlugin):
             return
 
         logger.warn(f"Admin Channel - Difficulty {_diff}")
-        self.difficulty = _diff
+        self.difficulty = int(_diff)
 
     @respond_to(r"^admin mod (?P<modulus>\d*)(?:.+)?$", re.IGNORECASE)
     def admin_modulus(self, msg, modulus):
@@ -274,7 +274,7 @@ class GameBotPlugin(MachineBasePlugin):
             return
 
         logger.warn(f"Admin Channel - Modulus {_mod}")
-        self.modulus = _mod
+        self.modulus = int(_mod)
 
     @respond_to(r"^admin status$", re.IGNORECASE)
     def admin_status(self, msg):
