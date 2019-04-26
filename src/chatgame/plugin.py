@@ -16,6 +16,7 @@ import pygame.freetype
 import re
 import operator
 import datetime
+import subprocess
 from better_profanity import profanity
 from machine.plugins.base import MachineBasePlugin
 from machine.plugins.decorators import respond_to, listen_to, schedule
@@ -57,9 +58,19 @@ class GameBotPlugin(MachineBasePlugin):
     Training / Presentation game bot
     """
 
+    def _disable_screen_blanking(self):
+        command_to_run = ["/usr/bin/setterm", "--blank", "0"]
+        try:
+            output = subprocess.check_output(command_to_run, universal_newlines=True)
+            logger.info(f"_disable_screen_blanking succeeded! Output was:\n{output}")
+        except subprocess.CalledProcessError:
+            logger.warning("_disable_screen_blanking failed!")
+            raise
+
     def init(self):
 
         logger.info("Gamebot Starting")
+        self._disable_screen_blanking()
         self.generating = True
         self.game_channel = self.settings.get("GAME_CHANNEL", None)
         self.admin_channel = self.settings.get("ADMIN_CHANNEL", None)
@@ -79,7 +90,6 @@ class GameBotPlugin(MachineBasePlugin):
         )
         self.GAME_FONT.strong = True
         self.screen.fill((255, 255, 255))
-        # or just `render_to` the target surface.
         self.GAME_FONT.render_to(self.screen, (110, 250), "THUNDERDOME", (0, 0, 0))
         self.GAME_FONT.render_to(self.screen, (160, 320), "IS WAITING", (0, 0, 0))
         pygame.display.flip()
