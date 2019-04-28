@@ -161,7 +161,7 @@ class GameBotPlugin(MachineBasePlugin):
                 f":slightly_frowning_face: Doh, something went wrong, sorry\n`{e}`"
             )
 
-    @schedule(second="*/10")
+    @schedule(second="*/5")
     def generate_answer(self):
         if not self.answered or self.generating:
             return
@@ -208,6 +208,18 @@ class GameBotPlugin(MachineBasePlugin):
             ),
         )
         self.generating = False
+
+    @respond_to(r"^question$")
+    def repeat_question(self, msg):
+
+        msg.reply_dm(
+                f'The Question is "{self.question}"\n'
+                "Respond with: !game <answer> <color name or #xxxxxx>"
+                "example:\n"
+                "`!game 53211 blue`\n"
+                "`!game 33.33 #deadbe`\n"
+                "(answer is rounded to 2 decimal places)"
+        )
 
     @respond_to(r"^admin reset$", re.IGNORECASE)
     def admin_reset(self, msg):
@@ -258,6 +270,7 @@ class GameBotPlugin(MachineBasePlugin):
             logger.error(f"Admin Channel - {e}")
             return
 
+        msg.reply(f"Admin Channel - Delay {_delay}")
         logger.warn(f"Admin Channel - Delay {_delay}")
         self.delay = int(_delay)
 
@@ -274,6 +287,7 @@ class GameBotPlugin(MachineBasePlugin):
             logger.error(f"Admin Channel - {e}")
             return
 
+        msg.reply(f"Admin Channel - Difficulty {_diff}")
         logger.warn(f"Admin Channel - Difficulty {_diff}")
         self.difficulty = int(_diff)
 
@@ -290,6 +304,7 @@ class GameBotPlugin(MachineBasePlugin):
             logger.error(f"Admin Channel - {e}")
             return
 
+        msg.reply(f"Admin Channel - Modulus {_mod}")
         logger.warn(f"Admin Channel - Modulus {_mod}")
         self.modulus = int(_mod)
 
