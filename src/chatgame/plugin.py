@@ -216,7 +216,7 @@ class GameBotPlugin(MachineBasePlugin):
                 f'The Question is "{self.question}"\n'
                 "Respond with: !game <answer> <color name or #xxxxxx>"
                 "example:\n"
-                "`!game 53211 blue`\n"
+                "`!game 53 blue`\n"
                 "`!game 33.33 #deadbe`\n"
                 "(answer is rounded to 2 decimal places)"
         )
@@ -251,7 +251,7 @@ class GameBotPlugin(MachineBasePlugin):
                     f'The Question is "{self.question}"\n'
                     "Respond with: !game <answer> <color name or #xxxxxx>"
                     "example:\n"
-                    "`!game 42 blue`\n"
+                    "`!game 51 blue`\n"
                     "`!game 33.33 #deadbe`\n"
                 ),
             )
